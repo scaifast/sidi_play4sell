@@ -1,0 +1,89 @@
+_schema-version: '3.1'
+ID: play4sell
+version: 1.0.0
+description: "A simple CAP project."
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - cds build --production
+modules:
+  - name: play4sell-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: postgres
+      - name: play4sell-auth
+      - name: play4sell-connectivity
+      - name: play4sell-destination
+      # - name: play4sell-postgres
+
+  - name: play4sell-postgres-deployer
+    type: nodejs
+    path: gen/pg
+    parameters:
+      buildpack: nodejs_buildpack
+      no-route: true
+      no-start: true
+      tasks:
+        - name: deploy-to-postgresql
+          command: npm start
+    requires:
+      - name: postgres
+      # - name: play4sell-postgres
+
+  - name: play4sell
+    type: approuter.nodejs
+    path: app/
+    parameters:
+      keep-existing-routes: true
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api # must be used in xs-app.json as well
+          url: ~{srv-url}
+          forwardAuthToken: true
+      - name: play4sell-auth
+
+resources:
+  - name: postgres
+    type: org.cloudfoundry.existing-service
+  - name: play4sell-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: play4sell-sidi-dev # fixme: ${org}-${space}
+        tenant-mode: dedicated
+  - name: play4sell-connectivity
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: connectivity
+      service-plan: lite
+  - name: play4sell-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        HTML5Runtime_enabled: true
+      service: destination
+      service-plan: lite
+  # - name: play4sell-postgres
+  #   type: org.cloudfoundry.managed-service
+  #   parameters:
+  #     service: postgresql-db
+  #     service-plan: development

@@ -1,0 +1,44 @@
+{
+  "name": "play4sell",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@cap-js/cds-typer": "^0.16.0",
+    "@cap-js/postgres": "^1.5.1",
+    "@sap-cloud-sdk/http-client": "^3.12.1",
+    "@sap-cloud-sdk/resilience": "^3.12.1",
+    "@sap/cds": "^7",
+    "@sap/xssec": "^3",
+    "express": "^4"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^7"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "job-fatturesd": "node srv/job-fatturesd.js"
+  },
+  "cds": {
+    "requires": {
+      "[production]": {
+        "auth": {
+					"kind": "xsuaa",
+					"restrict_all_services": false
+				}
+      },
+      "destinations": true,
+      "API_BILLING_DOCUMENT_SRV": {
+        "kind": "odata-v2",
+        "model": "srv/external/API_BILLING_DOCUMENT_SRV",
+        "credentials": {
+          "destination": "P4S_S60_LOCAL",
+          "path": "/sap/opu/odata/sap/API_BILLING_DOCUMENT_SRV"
+        }
+      }
+    }
+  }
+}
