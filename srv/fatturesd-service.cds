@@ -21,7 +21,8 @@ service CatalogService @(path: '/browse') {
     projection on billing_document.A_BillingDocument {
       key BillingDocument,
           SDDocumentCategory,
-          BillingDocumentType
+          BillingDocumentType,
+          CreationDate
     };
 
   action jobFetchFattureSD() returns String;
