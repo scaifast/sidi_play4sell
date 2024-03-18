@@ -28,4 +28,16 @@ service CatalogService @(path: '/browse') {
   action jobFetchFattureSD() returns String;
   action testConnection() returns String;
 
+
+  entity ListaNotaSpese as projection on NotaSpese;
+
+  /** For display in details pages */
+  
+  entity NotaSpese as
+    projection on my.NotaSpese {
+      *,
+
+    };
+
+
 };

@@ -61,5 +61,16 @@ entity ProviggioniAgenti : managed {
 		GruppoMerci2 : String;
 		GruppoMerci3 : String;
 		GruppoMerci4 : String;
-______________________________	______________________________	__________	______	______	__________	____________________________________________________________
+}
+
+entity NotaSpese : managed {
+  key	IDNotaSpese : String;
+  key	IDAgente : String;
+  key	Data : Date;
+  		Rimborso : String;
+  		Descrizione : String;
+  		DescRimborso : String;
+  		RimborsoKM : String;
+  		WBS : String;
+  		Importo : String; 
 }
