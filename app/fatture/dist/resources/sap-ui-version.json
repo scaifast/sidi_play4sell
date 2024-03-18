@@ -1,7 +1,11 @@
 {
 	"name": "sidi.fatture",
 	"version": "0.0.1",
+<<<<<<< HEAD
 	"buildTimestamp": "202403180826",
+=======
+	"buildTimestamp": "202403181110",
+>>>>>>> 4355da5f9df830e9c63caea9a4427ba8d82503b5
 	"scmRevision": "",
 	"libraries": []
 }

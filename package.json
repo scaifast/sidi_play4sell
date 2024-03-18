@@ -30,7 +30,8 @@
         "undeploy": "cf undeploy play4sell --delete-services --delete-service-keys --delete-service-brokers",
         "build": "rimraf resources mta_archives && mbt build --mtar archive",
         "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
-        "watch-venduto": "cds watch --open venduto/webapp/index.html?sap-ui-xx-viewCache=false"
+        "watch-venduto": "cds watch --open venduto/webapp/index.html?sap-ui-xx-viewCache=false",
+        "watch-notaspese": "cds watch --open notaspese/webapp/index.html?sap-ui-xx-viewCache=false"
     },
     "cds": {
         "requires": {
@@ -53,6 +54,7 @@
     },
     "sapux": [
         "app/fatture",
+        "app/notaspese",
         "app/venduto"
     ]
 }

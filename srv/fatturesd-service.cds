@@ -41,5 +41,17 @@ service CatalogService @(path: '/browse') {
     };
 
     
+
+  entity ListaNotaSpese as projection on NotaSpese;
+
+  /** For display in details pages */
+  
+  entity NotaSpese as
+    projection on my.NotaSpese {
+      *,
+
+    };
+
+
 };
 

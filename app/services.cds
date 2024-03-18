@@ -1,5 +1,7 @@
 
 using {sidi.play4sell as my} from './fatture/annotations';
+
+using from './notaspese/annotations';
 using CatalogService as service from '../srv/fatturesd-service'; 
 
 

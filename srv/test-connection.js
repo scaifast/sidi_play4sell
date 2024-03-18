@@ -3,7 +3,7 @@ const getDestination  = require('@sap-cloud-sdk/connectivity');
 
 async function minimalTest() {
   const destination = await getDestination({
-    destinationName: "P4S_S60_LOCAL"
+    destinationName: "P4S_S60"
   });
   if (destination) {
     destination.authTokens?.forEach(authToken => {
