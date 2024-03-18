@@ -1,5 +1,5 @@
 const cds = require('@sap/cds')
-
+//const {ProviggioniAgenti} = cds.entities('srv.fatturesd-service');
 
 module.exports = async function CatalogService() {
 
@@ -13,12 +13,12 @@ module.exports = async function CatalogService() {
         date.setDate(date.getDate() - days);
         return date;
     };
-    Date.prototype.getISOStringDate= function(){
-        let isoDate = this.toISOString().substring(0,10);
+    Date.prototype.getISOStringDate = function () {
+        let isoDate = this.toISOString().substring(0, 10);
         return isoDate;
     };
 
-    const { BillingDocuments } = this.entities;
+    const { BillingDocuments, ProviggioniAgenti } = this.entities;
     const service = await cds.connect.to('API_BILLING_DOCUMENT_SRV');
     this.on('READ', BillingDocuments, request => {
         return service.tx(request).run(request.query);
@@ -46,10 +46,10 @@ module.exports = async function CatalogService() {
         */
 
         let dataCalcolata = new Date();
-        dataCalcolata=dataCalcolata.subtractDays(365);
+        dataCalcolata = dataCalcolata.subtractDays(365);
         let dataFineCalcolo = new Date();
-        dataFineCalcolo=dataFineCalcolo.addDays(10);
-        console.log(dataCalcolata,dataFineCalcolo);
+        dataFineCalcolo = dataFineCalcolo.addDays(10);
+        console.log(dataCalcolata, dataFineCalcolo);
 
         const bildoc = await cds.connect.to('API_BILLING_DOCUMENT_SRV');
         let sult = await bildoc.run(
@@ -60,8 +60,21 @@ module.exports = async function CatalogService() {
                 .limit(10)
                 .orderBy("BillingDocument")
         );
-        console.log(sult);
+        
 
+        let arrayProvvigioni= [];
+        for (let element of sult) {
+            
+            let prov={};
+            prov.NumDocProvv=element.BillingDocument;
+            arrayProvvigioni.push(prov);
+
+          };
+        
+        await DELETE.from(ProviggioniAgenti);           // ripuliamo tabella prima dell'inserimento
+
+        await UPSERT(arrayProvvigioni).into(ProviggioniAgenti);
+        console.log("terminato");
 
 
     });

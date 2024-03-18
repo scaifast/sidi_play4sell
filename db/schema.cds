@@ -61,5 +61,4 @@ entity ProviggioniAgenti : managed {
 		GruppoMerci2 : String;
 		GruppoMerci3 : String;
 		GruppoMerci4 : String;
-______________________________	______________________________	__________	______	______	__________	____________________________________________________________
 }

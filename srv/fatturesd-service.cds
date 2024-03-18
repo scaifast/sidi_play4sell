@@ -28,4 +28,15 @@ service CatalogService @(path: '/browse') {
   action jobFetchFattureSD() returns String;
   action testConnection() returns String;
 
+  @readonly
+  entity ListaProviggioniAgenti   as projection on ProviggioniAgenti;
+
+  /** For display in details pages */
+  @readonly
+  entity ProviggioniAgenti        as
+    projection on my.ProviggioniAgenti {
+      *,
+
+    };
+
 };
