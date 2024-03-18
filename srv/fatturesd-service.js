@@ -3,13 +3,31 @@ const cds = require('@sap/cds')
 
 module.exports = async function CatalogService() {
 
+    Date.prototype.addDays = function (days) {
+        var date = new Date(this.valueOf());
+        date.setDate(date.getDate() + days);
+        return date;
+    };
+    Date.prototype.subtractDays = function (days) {
+        var date = new Date(this.valueOf());
+        date.setDate(date.getDate() - days);
+        return date;
+    };
+    Date.prototype.getISOStringDate= function(){
+        let isoDate = this.toISOString().substring(0,10);
+        return isoDate;
+    };
+
     const { BillingDocuments } = this.entities;
     const service = await cds.connect.to('API_BILLING_DOCUMENT_SRV');
     this.on('READ', BillingDocuments, request => {
         return service.tx(request).run(request.query);
     });
 
+
     this.on('jobFetchFattureSD', async ({ data: { } }) => {
+
+        /*
         console.log("a");
         const LOG = cds.log('a');
         LOG.info('whatever like...');
@@ -18,10 +36,37 @@ module.exports = async function CatalogService() {
         bildoc.foreach(SELECT(BillingDocuments).limit(10), doc =>
             console.log(doc)
         );
-
-
         return "f"
-    })
+        */
+
+        /*
+        const bildoc = await cds.connect.to('API_BILLING_DOCUMENT_SRV');
+        let check = await bildoc.read(BillingDocuments, 90000006);
+        console.log(check);
+        */
+
+        let dataCalcolata = new Date();
+        dataCalcolata=dataCalcolata.subtractDays(365);
+        let dataFineCalcolo = new Date();
+        dataFineCalcolo=dataFineCalcolo.addDays(10);
+        console.log(dataCalcolata,dataFineCalcolo);
+
+        const bildoc = await cds.connect.to('API_BILLING_DOCUMENT_SRV');
+        let sult = await bildoc.run(
+            SELECT(BillingDocuments)
+                .where(
+                    `CreationDate >= '${dataCalcolata.getISOStringDate()}' and CreationDate <= '${dataFineCalcolo.getISOStringDate()}'`
+                )
+                .limit(10)
+                .orderBy("BillingDocument")
+        );
+        console.log(sult);
+
+
+
+    });
+
+
 
 
 
