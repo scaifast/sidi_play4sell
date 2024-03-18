@@ -16,6 +16,8 @@ service CatalogService @(path: '/browse') {
 
     };
 
+
+
  @readonly
   entity BillingDocuments as
     projection on billing_document.A_BillingDocument {
@@ -28,4 +30,16 @@ service CatalogService @(path: '/browse') {
   action jobFetchFattureSD() returns String;
   action testConnection() returns String;
 
+  entity ListaProviggioniAgenti   as projection on ProviggioniAgenti;
+
+  /** For display in details pages */
+  @readonly
+  entity ProviggioniAgenti        as
+    projection on my.ProviggioniAgenti {
+      *,
+
+    };
+
+    
 };
+
