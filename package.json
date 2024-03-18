@@ -35,7 +35,7 @@
         "kind": "odata-v2",
         "model": "srv/external/API_BILLING_DOCUMENT_SRV",
         "credentials": {
-          "destination": "P4S_S60_LOCAL",
+          "destination": "P4S_S60",
           "path": "/sap/opu/odata/sap/API_BILLING_DOCUMENT_SRV"
         }
       }

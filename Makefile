@@ -24,7 +24,7 @@ reload:
 
 
 test-destination:
-	curl -v -i "P4S_S60_LOCAL.dest/sap/opu/odata/iwfnd/catalogservice;v=2/ServiceCollection?%24top=1"
+	curl -v -i "P4S_S60.dest/sap/opu/odata/iwfnd/catalogservice;v=2/ServiceCollection?%24top=1"
 
 watch:
 	cds watch --profile hybrid

@@ -35,7 +35,7 @@ module.exports = async function CatalogService() {
         console.log("step 2");
 
         const destination = await connectivity.getDestinationFromDestinationService({
-            destinationName: "P4S_S60_LOCAL"
+            destinationName: "P4S_S60"
         });
 
         console.log("step 3");
