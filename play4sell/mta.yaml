@@ -1,0 +1,69 @@
+_schema-version: "3.2"
+ID: play4sell
+description: play4sell
+version: 0.0.1
+modules:
+- name: play4sell-dest-content
+  type: com.sap.application.content
+  requires:
+  - name: play4sell-destination-service
+    parameters:
+      content-target: true
+  - name: play4sell-repo-host
+    parameters:
+      service-key:
+        name: play4sell-repo-host-key
+  - name: play4sell-uaa
+    parameters:
+      service-key:
+        name: play4sell-uaa-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: play4sell_repo_host
+          ServiceInstanceName: play4sell-html5-srv
+          ServiceKeyName: play4sell-repo-host-key
+          sap.cloud.service: play4sell
+        - Authentication: OAuth2UserTokenExchange
+          Name: play4sell_uaa
+          ServiceInstanceName: play4sell-xsuaa-srv
+          ServiceKeyName: play4sell-uaa-key
+          sap.cloud.service: play4sell
+        existing_destinations_policy: update
+  build-parameters:
+    no-source: true
+resources:
+- name: play4sell-uaa
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json  
+    service: xsuaa
+    service-name: play4sell-xsuaa-srv
+    service-plan: application
+- name: play4sell-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      version: 1.0.0
+      init_data:
+        instance:
+          existing_destinations_policy: update
+          destinations:
+          - Name: ui5
+            Type: HTTP
+            URL: https://ui5.sap.com
+            ProxyType: Internet
+            Authentication: NoAuthentication
+    service: destination
+    service-name: play4sell-destination-service
+    service-plan: lite
+- name: play4sell-repo-host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: play4sell-html5-srv
+    service-plan: app-host
+parameters:
+  deploy_mode: html5-repo

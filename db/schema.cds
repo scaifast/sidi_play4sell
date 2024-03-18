@@ -36,7 +36,7 @@ entity ProviggioniAgenti : managed {
 		UdMCond : String;
 		ProvvValore3Dec : Currency;
 		ChiaveDivisa : String; 
-		ImpFatturato : Currency;
+		ImpFatturato : Double;
 		ValNettoDivisaDoc : Currency;
 		MaturatoProvvigione : Currency;
 		DivisaDocComm : String;
@@ -61,4 +61,16 @@ entity ProviggioniAgenti : managed {
 		GruppoMerci2 : String;
 		GruppoMerci3 : String;
 		GruppoMerci4 : String;
+}
+
+entity NotaSpese : managed {
+  key	IDNotaSpese : String;
+  key	IDAgente : String;
+  key	Data : Date;
+  		Rimborso : String;
+  		Descrizione : String;
+  		DescRimborso : String;
+  		RimborsoKM : String;
+  		WBS : String;
+  		Importo : String; 
 }

@@ -24,6 +24,11 @@ modules:
   path: gen/pg
   requires:
   - name: postgres
+  - name: play4sell-auth
+#  provides:
+#  - name: srv-api
+#    properties:
+#     srv-url: ${default-url}
   parameters:
     buildpack: nodejs_buildpack
     no-route: true
@@ -49,7 +54,7 @@ modules:
       name: ui5
       url: https://ui5.sap.com
   parameters:
-    disk-quota: 256M
+    disk-quota: 512M
     keep-existing-routes: true
     memory: 256M
 - name: play4sell-app-content
@@ -66,9 +71,37 @@ modules:
       - sidifatture.zip
       name: sidifatture
       target-path: resources/
+    - artifacts:
+      - sidinotaspese.zip
+      name: sidinotaspese
+      target-path: resources/
+    - artifacts:
+      - sidivenduto.zip
+      name: sidivenduto
+      target-path: resources/
 - name: sidifatture
   type: html5
   path: app/fatture
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: sidinotaspese
+  type: html5
+  path: app/notaspese
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: sidivenduto
+  type: html5
+  path: app/venduto
   build-parameters:
     build-result: dist
     builder: custom
@@ -106,9 +139,18 @@ resources:
             ProxyType: Internet
             Type: HTTP
             URL: https://ui5.sap.com
+          - Authentication: NoAuthentication
+            HTML5.DynamicDestination: true
+            HTML5.ForwardAuthToken: true
+            Name: play4sell-srv-api
+            ProxyType: Internet
+            Type: HTTP
+            URL: ~{srv-api/srv-url}
           existing_destinations_policy: update
     service: destination
     service-plan: lite
+  requires:
+  - name: srv-api
 - name: play4sell-repo-host
   type: org.cloudfoundry.managed-service
   parameters:
