@@ -1,76 +1,143 @@
-using { Currency, managed, sap } from '@sap/cds/common';
+using {
+    Currency,
+    managed,
+    sap,
+    sap.common.CodeList
+} from '@sap/cds/common';
 
 namespace sidi.play4sell;
 
 entity FattureSD : managed {
-  key ID      : Integer;
-  quantita    : Integer;
+    key ID       : Integer;
+        quantita : Integer;
 }
 
+type TipoDocComm   : String enum {
+    SalesOrder = 'C';
+    Invoice    = 'M';
+}
+
+type Percentage    : Decimal(11, 2);
+type Value         : Decimal(15, 3);
+type Amount        : Decimal(15, 3);
+
+entity UnitOfMeasures : CodeList {
+    key code : String(3)
+}
+
+type UnitOfMeasure : Association to UnitOfMeasures;
+
+entity Company : managed {
+    key Company  : String;
+        Name     : String;
+
+        @readonly
+        Currency : Currency;
+}
+
+
+/** Documenti Vendita con provvigione calcolata da ProAge */
 entity ProviggioniAgenti : managed {
-  key	NumDocProvv : String;
-		NumPosProvv : String;
-		RigaProv : Integer;
-		TipoDocComm : String;
-		TipoCond : String;
-		Società : String;
-		NumeroContoForn : String;
-		TipoRappAgenzia : String;
-		CodAgente : String;
-		CatPosDocComm : String;
-		DocVend : String;
-		PosDocVend : Integer;
-		DataDoc : Date;
-		Committente : String;
-		EsecutorePag : String;
-		TipoFattura : String;
-		DataDocFattura : Date;
-		TipoDocVendita : String;
-		OrgComm : String;
-		CanaleDistr : String;
-		SettMerc : String;
-		CodMateriale : String;
-		QtaEffettFatturate : Integer;
-		UdMVendita : Integer; 
-		PercProvv : Currency;
-		UdMCond : String;
-		ProvvValore3Dec : Currency;
-		ChiaveDivisa : String; 
-		ImpFatturato : Double;
-		ValNettoDivisaDoc : Currency;
-		MaturatoProvvigione : Currency;
-		DivisaDocComm : String;
-		ModAcquisizione : String;
-		ProvvStornata : String;
-		ProvvRif : String;
-		Agente : String;
-		Cliente : String;
-		DestMerci : String;
-		PrezzoListinoUnitario : Currency;
-		PercSconto : String;
-		PrezzoVendUnitario : Currency;
-		DataRegDoc : Date;
-		Contratto : String;
-		IndiceContratto : String;
-		NumeroAmbito : Integer;
-		CodiceDestMerce : String;
-		CentroCosto : String;
-		PesoNetto : Integer;
-		UnitaPeso: String;
-		GerarchiaProdotti : String;
-		GruppoMerci2 : String;
-		GruppoMerci3 : String;
-		GruppoMerci4 : String;
+    key NumDocProvv           : String not null;
+        NumPosProvv           : String not null;
+        RigaProv              : Integer not null;
+        TipoDocComm           : TipoDocComm not null;
+        TipoCond              : String;
+        Societa               : Association to Company;
+        NumeroContoForn       : String;
+        TipoRappAgenzia       : String;
+        CodAgente             : String;
+        CatPosDocComm         : String;
+        DocVend               : String;
+        PosDocVend            : Integer;
+        DataDoc               : Date;
+        Committente           : String;
+        EsecutorePag          : String;
+        TipoFattura           : String;
+        DataDocFattura        : Date;
+        TipoDocVendita        : String;
+        OrgComm               : String;
+        CanaleDistr           : String;
+        SettMerc              : String;
+        CodMateriale          : String;
+
+        @sap.unit                     : 'UdMVendita.code'
+        @Semantics.amount.currencyCode: 'UdMVendita.code'
+        @Measures.Unit                : UdMVendita.code
+        QtaEffettFatturate    : Value;
+        UdMVendita            : UnitOfMeasure;
+
+        @sap.unit                     : 'UdMCond'
+        @Semantics.amount.currencyCode: 'UdMCond'
+        @Measures.Unit                : UdMCond
+        PercProvv             : Percentage;
+        UdMCond               : String;
+
+        @sap.unit                     : 'UdMCond'
+        @Semantics.amount.currencyCode: 'UdMCond'
+        @Measures.Unit                : UdMCond
+        ProvvValore           : Value;
+
+        Divisa                : Currency;
+
+        @sap.unit                     : 'Societa.Currency.code'
+        @Semantics.amount.currencyCode: 'Societa.Currency.code'
+        @Measures.Unit                : Societa.Currency.code
+        ImpFatturato          : Value;
+
+        @sap.unit                     : 'Divisa.code'
+        @Semantics.amount.currencyCode: 'Divisa.code'
+        @Measures.Unit                : Divisa.code
+        ValNettoDivisaDoc     : Value;
+
+        @sap.unit                     : 'Divisa.code'
+        @Semantics.amount.currencyCode: 'Divisa.code'
+        @Measures.Unit                : Divisa.code
+        MaturatoProvvigione   : Value;
+        DivisaDocComm         : String;
+        ModAcquisizione       : String;
+        ProvvStornata         : String;
+        ProvvRif              : String;
+        Agente                : String;
+        Cliente               : String;
+        DestMerci             : String;
+
+        @sap.unit                     : 'Divisa.code'
+        @Semantics.amount.currencyCode: 'Divisa.code'
+        @Measures.Unit                : Divisa.code
+        PrezzoListinoUnitario : Value;
+        PercSconto            : Percentage;
+
+        @sap.unit                     : 'Divisa.code'
+        @Semantics.amount.currencyCode: 'Divisa.code'
+        @Measures.Unit                : Divisa.code
+        PrezzoVendUnitario    : Value;
+        DataRegDoc            : Date;
+        Contratto             : String;
+        IndiceContratto       : String;
+        NumeroAmbito          : Integer;
+        CodiceDestMerce       : String;
+        CentroCosto           : String;
+
+        @sap.unit                     : 'UdM.code'
+        @Semantics.amount.currencyCode: 'UdM.code'
+        @Measures.Unit                : UdM.code
+        PesoNetto             : Amount;
+        UdM                   : UnitOfMeasure;
+        GerarchiaProdotti     : String;
+        GruppoMerci2          : String;
+        GruppoMerci3          : String;
+        GruppoMerci4          : String;
 }
 
 entity NotaSpese : managed {
-  key	IDNotaSpese : String;
-  key	IDAgente : String;
-  key	Data : Date;
-  		Rimborso : String;
-  		Descrizione : String;
-  		DescRimborso : String;
-  		RimborsoKM : String;
-  		WBS : String;
-  		Importo : String; 
+    key IDNotaSpese  : String;
+    key IDAgente     : String;
+    key Data         : Date;
+        Rimborso     : String;
+        Descrizione  : String;
+        DescRimborso : String;
+        RimborsoKM   : String;
+        WBS          : String;
+        Importo      : String;
 }

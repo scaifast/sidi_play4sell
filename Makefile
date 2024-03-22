@@ -39,6 +39,8 @@ bind:
 tunnel: 
 	cf ssh -L localhost:9999:postgres-4cc6222e-a8dd-43f4-8a32-09d21ce89a5e.ce4jcviyvogb.eu-central-1.rds.amazonaws.com:6307 ssh-tunnel -N
 	
+deploy-db:
+	cds deploy --profile postgres-production
 	
 # List recent deployment processes using the cf mta-ops --all command and note the mta id or operation id.
 # Download the logs of the deployment operation based on operation id of mta id as per the following examples:
