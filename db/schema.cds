@@ -147,10 +147,10 @@ entity NotaSpese : managed {
         DescRimborso : String;
         RimborsoKM   : String;
         WBS          : String;
-        // Divisa       : Currency;
+        Divisa       : Currency;
 
-        // @sap.unit                     : 'Divisa.code'
-        // @Semantics.amount.currencyCode: 'Divisa.code'
-        // @Measures.Unit                : Divisa.code
+        @sap.unit                     : 'Divisa.code'
+        @Semantics.amount.currencyCode: 'Divisa.code'
+        @Measures.Unit                : Divisa.code
         Importo      : Value;
 }
