@@ -36,3 +36,5 @@ mta_archives/
 app/*/dist/
 
 app/fatture/dist
+*.zip
+
