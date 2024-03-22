@@ -1,7 +1,34 @@
 {
-  "xsappname": "play4sell",
+  "xsappname": "play4sell-dev",
   "tenant-mode": "dedicated",
   "description": "Security profile of called application",
-  "scopes": [],
-  "role-templates": []
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.Play4sellAgente",
+      "description": "Play4sell Agente"
+    },
+    {
+      "name": "$XSAPPNAME.Play4sellCliente",
+      "description": "Play4sell Cliente"
+    }
+  ],
+  "attributes": [],
+  "role-templates": [
+    {
+      "name": "Play4sellAgente",
+      "description": "generated",
+      "scope-references": [
+        "$XSAPPNAME.Play4sellAgente"
+      ],
+      "attribute-references": []
+    },
+    {
+      "name": "Play4sellCliente",
+      "description": "generated",
+      "scope-references": [
+        "$XSAPPNAME.Play4sellCliente"
+      ],
+      "attribute-references": []
+    }
+  ]
 }

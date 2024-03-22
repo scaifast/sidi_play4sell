@@ -8,5 +8,8 @@
   },
   "scripts": {
     "start": "node node_modules/@sap/approuter/approuter.js"
+  },
+  "devDependencies": {
+    "@sap/ux-specification": "^1.120.6"
   }
 }

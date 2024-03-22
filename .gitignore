@@ -37,4 +37,6 @@ app/*/dist/
 
 app/fatture/dist
 *.zip
-
+dist/
+resources/
+app/*/package-lock.json

@@ -1,10 +1,13 @@
-all: build deploy 
+all: clean build deploy 
+
+clean:
+	rm -f srv/external/API_BILLING_DOCUMENT_SRV.csn
 
 build:
 	mbt build -t gen --mtar mta.tar
 
 deploy:
-	cf deploy gen/mta.tar
+	cf deploy  gen/mta.tar
 
 dev-job-fatturesd:
 	curl -d '{"key1":"value1", "key2":"value2"}' -H "Content-Type: application/json" -X POST localhost:4004/browse/jobFetchFattureSD
@@ -37,3 +40,9 @@ tunnel:
 	cf ssh -L localhost:9999:postgres-4cc6222e-a8dd-43f4-8a32-09d21ce89a5e.ce4jcviyvogb.eu-central-1.rds.amazonaws.com:6307 ssh-tunnel -N
 	
 	
+# List recent deployment processes using the cf mta-ops --all command and note the mta id or operation id.
+# Download the logs of the deployment operation based on operation id of mta id as per the following examples:
+# cf dmol -i <operation id>
+
+
+# collegarsi a ssh dal pc: cf ssh -L localhost:9999:postgres-4cc6222e-a8dd-43f4-8a32-09d21ce89a5e.ce4jcviyvogb.eu-central-1.rds.amazonaws.com:6307 ssh-tunnel -N

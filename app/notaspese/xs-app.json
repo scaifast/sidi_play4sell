@@ -5,7 +5,7 @@
     {
       "source": "^/browse/(.*)$",
       "target": "/browse/$1",
-      "destination": "play4sell-srv-api",
+      "destination": "play4sell-app-srv",
       "authenticationType": "xsuaa",
       "csrfProtection": false
     },
@@ -26,6 +26,12 @@
       "target": "$1",
       "service": "html5-apps-repo-rt",
       "authenticationType": "xsuaa"
+    },
+    {
+      "authenticationType": "none",
+      "csrfProtection": false,
+      "source": "^/catalog/",
+      "destination": "cap-catalog-api"
     }
   ]
 }
