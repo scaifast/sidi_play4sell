@@ -1,6 +1,7 @@
 using {
     Currency,
     managed,
+    User,
     sap,
     sap.common.CodeList
 } from '@sap/cds/common';
@@ -35,6 +36,13 @@ entity Company : managed {
         Currency : Currency;
 }
 
+entity Agenti : managed {
+    key utente : User;
+    supplier   : String;
+	name : String;
+}
+
+type Agente : Association to Agenti;
 
 /** Documenti Vendita con provvigione calcolata da ProAge */
 entity ProviggioniAgenti : managed {
@@ -46,7 +54,7 @@ entity ProviggioniAgenti : managed {
         Societa               : Association to Company;
         NumeroContoForn       : String;
         TipoRappAgenzia       : String;
-        CodAgente             : String;
+        Agente             : Agente;
         CatPosDocComm         : String;
         DocVend               : String;
         PosDocVend            : Integer;
@@ -98,8 +106,8 @@ entity ProviggioniAgenti : managed {
         ModAcquisizione       : String;
         ProvvStornata         : String;
         ProvvRif              : String;
-        Agente                : String;
-        Cliente               : String;
+        AgenteInternoEsterno                : String;
+        ClienteInternoEsterno               : String;
         DestMerci             : String;
 
         @sap.unit                     : 'Divisa.code'
@@ -132,12 +140,17 @@ entity ProviggioniAgenti : managed {
 
 entity NotaSpese : managed {
     key IDNotaSpese  : String;
-    key IDAgente     : String;
-    key Data         : Date;
-        Rimborso     : String;
+    key Agente     : Agente;
+        Data         : Date;
+        Rimborso     : Value;
         Descrizione  : String;
         DescRimborso : String;
         RimborsoKM   : String;
         WBS          : String;
-        Importo      : String;
+        // Divisa       : Currency;
+
+        // @sap.unit                     : 'Divisa.code'
+        // @Semantics.amount.currencyCode: 'Divisa.code'
+        // @Measures.Unit                : Divisa.code
+        Importo      : Value;
 }
