@@ -18,32 +18,51 @@ module.exports = async function CatalogService() {
         return isoDate;
     };
 
-    const { BillingDocuments, ProviggioniAgenti } = this.entities;
+    const { BillingDocuments, ProviggioniAgenti, Products, APIProducts } = this.entities;
+
     const service = await cds.connect.to('API_BILLING_DOCUMENT_SRV');
     this.on('READ', BillingDocuments, request => {
         return service.tx(request).run(request.query);
     });
 
+    const service_product = await cds.connect.to('OP_API_PRODUCT_SRV_0001');
+    this.on('READ', APIProducts, request => {
+        return service_product.tx(request).run(request.query);
+    });
+
+    this.on('jobFetchProducts', async ({ data: { } }) => {
+
+
+        const product = await cds.connect.to('OP_API_PRODUCT_SRV_0001');
+        let sult = await product.run(
+            SELECT(APIProducts)
+                .where(
+                    `IsMarkedForDeletion=' '`
+                )
+                .limit(100)
+                .orderBy("Product")
+        );
+        
+
+        let arrayProducts= [];
+        for (let element of sult) {
+            
+            let prod={};
+            prod.CodProduct=element.Product;
+            arrayProducts.push(prod);
+
+          };
+        
+        await DELETE.from(Products);           // ripuliamo tabella prima dell'inserimento
+
+        await UPSERT(arrayProducts).into(Products);
+        console.log("terminato");
+
+
+    });
+
 
     this.on('jobFetchFattureSD', async ({ data: { } }) => {
-
-        /*
-        console.log("a");
-        const LOG = cds.log('a');
-        LOG.info('whatever like...');
-
-        const bildoc = await cds.connect.to('API_BILLING_DOCUMENT_SRV');
-        bildoc.foreach(SELECT(BillingDocuments).limit(10), doc =>
-            console.log(doc)
-        );
-        return "f"
-        */
-
-        /*
-        const bildoc = await cds.connect.to('API_BILLING_DOCUMENT_SRV');
-        let check = await bildoc.read(BillingDocuments, 90000006);
-        console.log(check);
-        */
 
         let dataCalcolata = new Date();
         dataCalcolata = dataCalcolata.subtractDays(365);
