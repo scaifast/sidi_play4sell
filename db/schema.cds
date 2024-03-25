@@ -44,6 +44,8 @@ entity Agenti : managed {
 
 type Agente : Association to Agenti;
 
+
+
 /** Documenti Vendita con provvigione calcolata da ProAge */
 entity ProviggioniAgenti : managed {
     key NumDocProvv           : String not null;
