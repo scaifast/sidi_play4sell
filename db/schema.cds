@@ -144,18 +144,21 @@ entity NotaSpese @(restrict: [
   ]) : managed, cuid {
 //    key IDNotaSpese  : String;
     key Agente       : User @cds.on.insert : $user;
+
+    @mandatory
         Data         : Date;
         Rimborso     : Value;
-        Descrizione  : String;
         DescRimborso : String;
         RimborsoKM   : String;
         WBS          : String;
 
+    @mandatory
         Divisa       : Currency;
 
 //        @sap.unit                     : 'Divisa.code'
 //        @Semantics.amount.currencyCode: 'Divisa'
 //        @Measures.Unit                : Divisa.code
+    @mandatory
         Importo      : Value;
 }
 
