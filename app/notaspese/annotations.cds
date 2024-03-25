@@ -118,7 +118,7 @@ annotate service.ListaNotaSpese with @(
             {
                 $Type : 'UI.DataField',
                 Value : ID,
-                Label : 'IDNotaSpese',
+                Label : '{i18n>IDNotaspese}',
             },
             {
                 $Type : 'UI.DataField',
@@ -127,17 +127,17 @@ annotate service.ListaNotaSpese with @(
             {
                 $Type : 'UI.DataField',
                 Value : Data,
-                Label : 'Data',
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : Descrizione,
-                Label : 'Descrizione',
+                Label : '{i18n>Data}',
             },
             {
                 $Type : 'UI.DataField',
                 Value : Importo,
-                Label : 'Importo',
+                Label : '{i18n>Importo}',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : Descrizione,
+                Label : '{i18n>Descrizione}',
             }
         ],
     }
@@ -148,7 +148,7 @@ annotate service.ListaNotaSpese with {
  //   Divisa @Common.ValueList.CollectionPath : 'Currencies';
 };
 annotate service.ListaNotaSpese with {
-    Divisa_code @Common.ValueList : {
+    Divisa @Common.ValueList : {
         $Type : 'Common.ValueListType',
         Parameters : [
             {
@@ -162,3 +162,12 @@ annotate service.ListaNotaSpese with {
     }
 };
 
+annotate service.ListaNotaSpese with {
+    Importo @Measures.ISOCurrency : Divisa_code
+};
+annotate service.ListaNotaSpese with @(
+    UI.UpdateHidden : true
+);
+annotate service.ListaNotaSpese with @(
+    UI.DeleteHidden : true
+);
