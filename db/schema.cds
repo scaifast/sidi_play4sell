@@ -158,3 +158,25 @@ entity NotaSpese @(restrict: [
 //        @Measures.Unit                : Divisa.code
         Importo      : Value;
 }
+
+entity Products     : managed{
+    Key CodProduct  : String;
+        DescProduct : String;
+        Img         : String;                   //todo 
+        UoM         : UnitOfMeasure;
+        Divisa       : Currency;
+
+        @sap.unit                     : 'Divisa.code'
+        @Semantics.amount.currencyCode: 'Divisa.code'
+        @Measures.Unit                : Divisa.code
+        UnitPrice   : Value;
+        Origin      : String;
+        FlagPromo   : Boolean;
+        FlagDiscount: Boolean;
+
+        @sap.unit                     : 'UoM.code'
+        @Semantics.amount.currencyCode: 'UoM.code'
+        @Measures.Unit                : UoM.code
+        Stock       : Amount;
+
+}
