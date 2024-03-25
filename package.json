@@ -31,8 +31,7 @@
     "build": "rimraf resources mta_archives && mbt build --mtar archive",
     "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
     "watch-venduto": "cds watch --open venduto/webapp/index.html?sap-ui-xx-viewCache=false",
-    "watch-notaspese": "cds watch --open notaspese/webapp/index.html?sap-ui-xx-viewCache=false",
-    "watch-agente_listino_prezzi": "cds watch --open agente_listino_prezzi/webapp/index.html?sap-ui-xx-viewCache=false"
+    "watch-notaspese": "cds watch --open notaspese/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "cds": {
     "requires": {
@@ -40,11 +39,6 @@
         "auth": {
           "kind": "xsuaa",
           "restrict_all_services": false
-        }
-      },
-      "[hybrid]": {
-        "auth": {
-          "kind": "mocked"
         }
       },
       "destinations": true,
@@ -56,28 +50,19 @@
           "path": "/sap/opu/odata/sap/API_BILLING_DOCUMENT_SRV"
         }
       },
-      "OP_API_PRODUCT_SRV_0001": {
-        "kind": "odata-v2",
-        "model": "srv/external/OP_API_PRODUCT_SRV_0001",
-        "credentials": {
-          "destination": "P4S_S60",
-          "path": "/sap/opu/odata/sap/API_PRODUCT_SRV"
-        }
-      },
       "API_MATERIAL_STOCK_SRV": {
         "kind": "odata-v2",
-        "model": "srv/external/API_MATERIAL_STOCK_SRV",
-        "credentials": {
-          "destination": "P4S_S60",
-          "path": "/sap/opu/odata/sap/API_MATERIAL_STOCK_SRV"
-        }
+        "model": "srv/external/API_MATERIAL_STOCK_SRV"
+      },
+      "OP_API_PRODUCT_SRV_0001": {
+        "kind": "odata-v2",
+        "model": "srv/external/OP_API_PRODUCT_SRV_0001"
       }
     }
   },
   "sapux": [
     "app/fatture",
     "app/notaspese",
-    "app/venduto",
-    "app/agente_listino_prezzi"
+    "app/venduto"
   ]
 }
