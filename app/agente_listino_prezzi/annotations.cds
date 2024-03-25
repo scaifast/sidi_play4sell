@@ -1,1 +1,1 @@
-using CatalogService as service from 'SAP Business Application Studio/projects/sidi_play4sell/srv/fatturesd-service';
+using CatalogService as service from '../../srv/fatturesd-service';

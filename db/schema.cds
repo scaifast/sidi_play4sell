@@ -159,9 +159,11 @@ entity NotaSpese @(restrict: [
         Importo      : Value;
 }
 
-entity Products     : managed{
-    Key CodProduct  : String;
-        DescProduct : String;
+entity Products @(restrict: [
+    { grant: ['READ','WRITE'],to:'authenticated-user' },
+  ])    : managed{
+    Key CodProduct  : String;        
+        DescProduct : localized String;
         Img         : String;                   //todo 
         UoM         : UnitOfMeasure;
         Divisa       : Currency;
