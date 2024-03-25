@@ -1,6 +1,7 @@
 using {
     Currency,
     managed,
+    cuid,
     User,
     sap,
     sap.common.CodeList
@@ -138,20 +139,23 @@ entity ProviggioniAgenti : managed {
         GruppoMerci4          : String;
 }
 
-entity NotaSpese : managed {
-    key IDNotaSpese  : String;
-    key Agente     : Agente;
+entity NotaSpese @(restrict: [
+    { grant: ['READ','WRITE'], where: 'Agente = $user' },
+  ]) : managed, cuid {
+//    key IDNotaSpese  : String;
+    key Agente       : User @cds.on.insert : $user;
         Data         : Date;
         Rimborso     : Value;
         Descrizione  : String;
         DescRimborso : String;
         RimborsoKM   : String;
         WBS          : String;
+
         Divisa       : Currency;
 
         @sap.unit                     : 'Divisa.code'
-        @Semantics.amount.currencyCode: 'Divisa.code'
-        @Measures.Unit                : Divisa.code
+        @Semantics.amount.currencyCode: 'Divisa'
+//        @Measures.Unit                : Divisa.code
         Importo      : Value;
 }
 
