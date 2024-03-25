@@ -12,6 +12,9 @@ deploy:
 dev-job-fatturesd:
 	curl -d '{"key1":"value1", "key2":"value2"}' -H "Content-Type: application/json" -X POST localhost:4004/browse/jobFetchFattureSD
 
+dev-job-products:
+	curl -d '{"key1":"value1", "key2":"value2"}' -H "Content-Type: application/json" -X POST localhost:4004/browse/jobFetchProducts
+
 dev-test-connection:
 	curl -d '{"key1":"value1", "key2":"value2"}' -H "Content-Type: application/json" -X POST localhost:4004/browse/testConnection
 

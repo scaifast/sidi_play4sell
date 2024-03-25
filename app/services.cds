@@ -118,3 +118,5 @@ annotate service.ListaProviggioniAgenti with@(
 
 
 using from './venduto/annotations';
+
+using from './agente_listino_prezzi/annotations';
