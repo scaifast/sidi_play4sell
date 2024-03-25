@@ -55,7 +55,7 @@ entity ProviggioniAgenti : managed {
         Societa               : Association to Company;
         NumeroContoForn       : String;
         TipoRappAgenzia       : String;
-        Agente             : Agente;
+        Agente                : Agente;
         CatPosDocComm         : String;
         DocVend               : String;
         PosDocVend            : Integer;
@@ -153,8 +153,8 @@ entity NotaSpese @(restrict: [
 
         Divisa       : Currency;
 
-        @sap.unit                     : 'Divisa.code'
-        @Semantics.amount.currencyCode: 'Divisa'
+//        @sap.unit                     : 'Divisa.code'
+//        @Semantics.amount.currencyCode: 'Divisa'
 //        @Measures.Unit                : Divisa.code
         Importo      : Value;
 }
