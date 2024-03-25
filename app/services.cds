@@ -20,7 +20,7 @@ annotate service.ListaProviggioniAgenti with @(
       'search'      
     ],
     GroupableProperties: [
-      Agente,
+      Agente.supplier,
       CanaleDistr
 
     ],
@@ -44,12 +44,12 @@ annotate service.ListaProviggioniAgenti with @(
     Title: 'Stock',
     ChartType : #Column,
     Dimensions: [
-      Cliente,
+      ClienteInternoEsterno,
       CanaleDistr
     ],
     DimensionAttributes: [{
       $Type : 'UI.ChartDimensionAttributeType',
-      Dimension: Cliente,
+      Dimension: ClienteInternoEsterno,
       Role: #Category
     },{
       $Type : 'UI.ChartDimensionAttributeType',
@@ -78,7 +78,7 @@ annotate service.ListaProviggioniAgenti with @(
     $Type : 'UI.ChartDefinitionType',
     ChartType: #Bar,
     Dimensions: [
-      Cliente
+      ClienteInternoEsterno
     ],
     DynamicMeasures: [
       ![@Analytics.AggregatedProperty#TotaleFatturato]
@@ -91,13 +91,13 @@ annotate service.ListaProviggioniAgenti with @(
     ],
   }
 ){
-  Cliente @Common.ValueList #vlCategory1: {
+  ClienteInternoEsterno @Common.ValueList #vlCategory1: {
     $Type : 'Common.ValueListType',
     CollectionPath : 'ListaProviggioniAgenti',
     Parameters: [{
       $Type : 'Common.ValueListParameterInOut',
-      ValueListProperty : 'Cliente',
-      LocalDataProperty: Cliente
+      ValueListProperty : 'ClienteInternoEsterno',
+      LocalDataProperty: ClienteInternoEsterno
     }],
     PresentationVariantQualifier: 'prevCategory1'
   }
@@ -105,11 +105,11 @@ annotate service.ListaProviggioniAgenti with @(
 annotate service.ListaProviggioniAgenti with@(
     UI: {
         SelectionFields  : [
-            Cliente,
+            ClienteInternoEsterno,
             CanaleDistr
         ],
         LineItem: [
-            {  $Type : 'UI.DataField', Value : Cliente, },
+            {  $Type : 'UI.DataField', Value : ClienteInternoEsterno, },
             {  $Type : 'UI.DataField', Value : CanaleDistr, },
         ],
     }

@@ -52,6 +52,19 @@ service CatalogService @(path: '/browse') {
 
     };
 
+  
+  entity ProductsList as projection on Products;
+
+  /** For display in details pages */
+  
+  entity Products as
+    projection on my.Products {
+      *,
+
+    };
+
+
+
 
 };
 
