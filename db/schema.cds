@@ -1,6 +1,7 @@
 using {
     Currency,
     managed,
+    cuid,
     User,
     sap,
     sap.common.CodeList
@@ -56,7 +57,7 @@ entity ProviggioniAgenti : managed {
         Societa               : Association to Company;
         NumeroContoForn       : String;
         TipoRappAgenzia       : String;
-        Agente             : Agente;
+        Agente                : Agente;
         CatPosDocComm         : String;
         DocVend               : String;
         PosDocVend            : Integer;
@@ -140,19 +141,49 @@ entity ProviggioniAgenti : managed {
         GruppoMerci4          : String;
 }
 
-entity NotaSpese : managed {
-    key IDNotaSpese  : String;
-    key Agente     : Agente;
+entity NotaSpese @(restrict: [
+    { grant: ['READ','WRITE'], where: 'Agente = $user' },
+  ]) : managed, cuid {
+//    key IDNotaSpese  : String;
+    key Agente       : User @cds.on.insert : $user;
+
+    @mandatory
         Data         : Date;
         Rimborso     : Value;
-        Descrizione  : String;
         DescRimborso : String;
         RimborsoKM   : String;
         WBS          : String;
+
+    @mandatory
+        Divisa       : Currency;
+
+//        @sap.unit                     : 'Divisa.code'
+//        @Semantics.amount.currencyCode: 'Divisa'
+//        @Measures.Unit                : Divisa.code
+    @mandatory
+        Importo      : Value;
+}
+
+entity Products @(restrict: [
+    { grant: ['READ','WRITE'],to:'authenticated-user' },
+  ])    : managed{
+    Key CodProduct  : String;        
+        DescProduct : localized String;
+        Img         : String;                   //todo 
+        UoM         : UnitOfMeasure;
         Divisa       : Currency;
 
         @sap.unit                     : 'Divisa.code'
         @Semantics.amount.currencyCode: 'Divisa.code'
         @Measures.Unit                : Divisa.code
-        Importo      : Value;
+        UnitPrice   : Value;
+        Origin      : String;
+        FlagPromo   : Boolean;
+        FlagDiscount: Boolean;
+
+        @sap.unit                     : 'UoM.code'
+        @Semantics.amount.currencyCode: 'UoM.code'
+        @Measures.Unit                : UoM.code
+        Stock       : Amount;
+
 }

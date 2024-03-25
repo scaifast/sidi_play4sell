@@ -1,60 +1,83 @@
 {
-    "name": "play4sell",
-    "version": "1.0.0",
-    "description": "A simple CAP project.",
-    "repository": "<Add your repository here>",
-    "license": "UNLICENSED",
-    "private": true,
-    "dependencies": {
-        "@cap-js/cds-typer": "^0.16.0",
-        "@cap-js/postgres": "^1.5.1",
-        "@sap-cloud-sdk/http-client": "^3.12.1",
-        "@sap-cloud-sdk/resilience": "^3.12.1",
-        "@sap/cds": "^7",
-        "@sap/xssec": "^3",
-        "express": "^4"
-    },
-    "devDependencies": {
-        "@cap-js/sqlite": "^1",
-        "@sap/cds-dk": "^7",
-        "@sap/eslint-plugin-ui5-jsdocs": "^2.0.5",
-        "@sap/ux-specification": "^1.120.6",
-        "@sapui5/ts-types": "^1.92.2",
-        "eslint": "^7.32.0",
-        "rimraf": "^3.0.2"
-    },
-    "scripts": {
-        "start": "cds-serve",
-        "job-fatturesd": "node srv/job-fatturesd.js",
-        "watch-fatture": "cds watch --open fatture/webapp/index.html?sap-ui-xx-viewCache=false",
-        "undeploy": "cf undeploy play4sell --delete-services --delete-service-keys --delete-service-brokers",
-        "build": "rimraf resources mta_archives && mbt build --mtar archive",
-        "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
-        "watch-venduto": "cds watch --open venduto/webapp/index.html?sap-ui-xx-viewCache=false",
-        "watch-notaspese": "cds watch --open notaspese/webapp/index.html?sap-ui-xx-viewCache=false"
-    },
-    "cds": {
-        "requires": {
-            "[production]": {
-                "auth": {
-                    "kind": "xsuaa",
-                    "restrict_all_services": false
-                }
-            },
-            "destinations": true,
-            "API_BILLING_DOCUMENT_SRV": {
-                "kind": "odata-v2",
-                "model": "srv/external/API_BILLING_DOCUMENT_SRV",
-                "credentials": {
-                    "destination": "P4S_S60",
-                    "path": "/sap/opu/odata/sap/API_BILLING_DOCUMENT_SRV"
-                }
-            }
+  "name": "play4sell",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@cap-js/cds-typer": "^0.16.0",
+    "@cap-js/postgres": "^1.5.1",
+    "@sap-cloud-sdk/http-client": "^3.12.1",
+    "@sap-cloud-sdk/resilience": "^3.12.1",
+    "@sap/cds": "^7",
+    "@sap/xssec": "^3",
+    "express": "^4"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^7",
+    "@sap/eslint-plugin-ui5-jsdocs": "^2.0.5",
+    "@sap/ux-specification": "^1.120.6",
+    "@sapui5/ts-types": "^1.92.2",
+    "eslint": "^7.32.0",
+    "rimraf": "^3.0.2"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "job-fatturesd": "node srv/job-fatturesd.js",
+    "watch-fatture": "cds watch --open fatture/webapp/index.html?sap-ui-xx-viewCache=false",
+    "undeploy": "cf undeploy play4sell --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
+    "watch-venduto": "cds watch --open venduto/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-notaspese": "cds watch --open notaspese/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-agente_listino_prezzi": "cds watch --open agente_listino_prezzi/webapp/index.html?sap-ui-xx-viewCache=false"
+  },
+  "cds": {
+    "requires": {
+      "[production]": {
+        "auth": {
+          "kind": "xsuaa",
+          "restrict_all_services": false
         }
-    },
-    "sapux": [
-        "app/fatture",
-        "app/notaspese",
-        "app/venduto"
-    ]
+      },
+      "[hybrid]": {
+        "auth": {
+          "kind": "mocked"
+        }
+      },
+      "destinations": true,
+      "API_BILLING_DOCUMENT_SRV": {
+        "kind": "odata-v2",
+        "model": "srv/external/API_BILLING_DOCUMENT_SRV",
+        "credentials": {
+          "destination": "P4S_S60",
+          "path": "/sap/opu/odata/sap/API_BILLING_DOCUMENT_SRV"
+        }
+      },
+      "OP_API_PRODUCT_SRV_0001": {
+        "kind": "odata-v2",
+        "model": "srv/external/OP_API_PRODUCT_SRV_0001",
+        "credentials": {
+          "destination": "P4S_S60",
+          "path": "/sap/opu/odata/sap/API_PRODUCT_SRV"
+        }
+      },
+      "API_MATERIAL_STOCK_SRV": {
+        "kind": "odata-v2",
+        "model": "srv/external/API_MATERIAL_STOCK_SRV",
+        "credentials": {
+          "destination": "P4S_S60",
+          "path": "/sap/opu/odata/sap/API_MATERIAL_STOCK_SRV"
+        }
+      }
+    }
+  },
+  "sapux": [
+    "app/fatture",
+    "app/notaspese",
+    "app/venduto",
+    "app/agente_listino_prezzi"
+  ]
 }
