@@ -124,7 +124,39 @@
                                     }
                                 }
                             },
-                            "initialLoad": "Enabled"
+                            "initialLoad": "Enabled",
+                            "controlConfiguration": {
+                                
+                                "@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "columns": {
+                                        "DataField::Importo": {
+                                            "width": "10rem"
+                                        },
+                                        "DataField::WBS": {
+                                            "width": "10rem"
+                                        },
+                                        "DataField::RimborsoKM": {
+                                            "width": "10rem"
+                                        },
+                                        "DataField::Descrizione": {
+                                            "width": "10rem"
+                                        },
+                                        "DataField::DescRimborso": {
+                                            "width": "10rem"
+                                        },
+                                        "DataField::Data": {
+                                            "width": "10rem"
+                                        },
+                                        "DataField::modifiedBy": {
+                                            "availability": "Hidden"
+                                        }
+                                    },
+                                    "tableSettings": {
+                                        "enableExport": true,
+                                        "type": "ResponsiveTable"
+                                    }
+                                }
+                            }
                         }
                     }
                 },
