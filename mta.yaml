@@ -27,10 +27,10 @@ modules:
   - name: postgres
   - name: play4sell-auth
   - name: play4sell-postgres
-  provides:
-  - name: srv-api
-    properties:
-      srv-url: ${default-url}
+  # provides:
+  # - name: srv-api
+  #   properties:
+  #     srv-url: ${default-url}
   parameters:
     buildpack: nodejs_buildpack
     no-route: true
